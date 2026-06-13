@@ -35,13 +35,6 @@ This project implements a centralized monitoring solution using Zabbix to improv
 
 
 
-
-
-
-### Architecture Diagram
-
-
-
 ### Monitored Infrastructure
 
 
@@ -54,8 +47,33 @@ This project implements a centralized monitoring solution using Zabbix to improv
 
 
 
-### Alerting System
+## Alerting System (Custom Triggers)
 
+Zabbix has the feature of creating custom alerts or triggers based on the device's status or a specific service running in the device being monitored. 
+
+I've made triggers for detecting if my Pi-hole DNS server goes down
+
+i used the readily made template from zabbix that scans for the status of the services running in the linux server which is where the Pihole is running
+
+![Pihole]()
+
+### Templates Used: 
+
+- Systemd by Zabbix Agent 2
+- Linux by Zabbix Agent
+
+For the Trigger Alert itself I've configured for the trigger to activate if ever the pihole-FTL.service is not running and will send me an alert via Email.
+
+![Pihole]()
+
+
+Trigger Appearing in the Dashboard
+
+![Pihole]()
+  
+Sample Email After Alert:
+
+![Pihole]()
 
 
 ### Making a Custom Template
