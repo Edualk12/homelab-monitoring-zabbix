@@ -18,6 +18,12 @@ This project implements a centralized monitoring solution using Zabbix to improv
 
 ![Zabbix](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/ZABBIX.png)
 
+
+## Dashboard 
+
+![Zabbix](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Dashboard.png)
+
+
 ### Skills Demonstrated
 - Network monitoring 
 - Zabbix configuration and administration
@@ -36,8 +42,6 @@ This project implements a centralized monitoring solution using Zabbix to improv
 
 
 
-
-## Dashboard 
 
 
 
