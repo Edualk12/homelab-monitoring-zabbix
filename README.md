@@ -16,12 +16,12 @@ This project implements a centralized monitoring solution using Zabbix to improv
 
 ## Monitoring Configuration
 
-![Zabbix](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/ZABBIX.png)
+![Zabbix](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/ZABBIX.png)
 
 
 ### Dashboard 
 My Zabbix Dashboard that ive set to monitor crucial metrics such as the bits incoming and outgoing of my PC,and also the CPU and Memory utilization of the Zabbix Server itself and the Proxmox Hypervisor
-![Zabbix](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Dashboard.png)
+![Zabbix](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images%20/Dashboard.png)
 
 
 ### Skills Demonstrated
@@ -50,24 +50,24 @@ For the Trigger Alert itself I've configured for the trigger to activate if ever
 ### Trigger Action:
 This just shows when the status of the service running is equal, it will trigger the operation
 
-![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-4.png)
+![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/Zabbix-4.png)
 
 ### Trigger Operation:
 The operation is just send a message to the designated users, where the users profile is linked to their email, in this case my email is the recever of the alert.
 
-![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-9.png)
+![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/Zabbix-9.png)
 
 
 ### Trigger Appearing in the Dashboard
 This shows when the trigger is activated it has successfully sent the email alert to the designated users.
-![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-6.png)
+![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/Zabbix-6.png)
   
 ### Sample Email After Alert:
 
 Using the Gmail option is the fastest and easiest way out of all the other options like Generic SNMP, etc.
 Ive made another email just sending alerts from zabbix and another important detail to consider is to set a key for the email to ensure security of the email being used.
 
-![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-7.png)
+![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/Zabbix-7.png)
 
 
 
@@ -80,12 +80,12 @@ Ive made another email just sending alerts from zabbix and another important det
 Some problems I've encountered by setting the systemd template by zabbix agent is the notification that is not compatible and it said that the it timeout before getting the systemd data.
 The solution I found is to change the timeout value on the zabbix server itself from the web ui and in the .config file via the terminal.
 
-![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-3.png)
+![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/Zabbix-3.png)
 
 Other minor details when using the systemd by Zabbix Agent 2 Template are :
 
 - The Agent version running the device as it should be Agent 2
-- Remove the old Agent to avoid confusion
+- Remove the old Agent config file to avoid confusion
  
 
 ### Future Improvements
