@@ -35,27 +35,21 @@ This project implements a centralized monitoring solution using Zabbix to improv
 
 
 
-### Monitored Infrastructure
+## Monitored Infrastructure
 
 
 
-### Monitoring Configuration
+## Monitoring Configuration
 
 
 
-### Dashboard Screenshots
+## Dashboard Screenshots
 
 
 
 ## Alerting System (Custom Triggers)
 
-Zabbix has the feature of creating custom alerts or triggers based on the device's status or a specific service running in the device being monitored. 
-
-I've made triggers for detecting if my Pi-hole DNS server goes down
-
-i used the readily made template from zabbix that scans for the status of the services running in the linux server which is where the Pihole is running
-
-![Pihole]()
+Zabbix has the feature of creating custom alerts or triggers based on the device's status or a specific service running in the device being monitored. I've made triggers for detecting if my Pi-hole DNS server goes down. I used the readily made template from zabbix that scans for the status of the services running in the linux server which is where the Pihole is running
 
 ### Templates Used: 
 
@@ -64,23 +58,46 @@ i used the readily made template from zabbix that scans for the status of the se
 
 For the Trigger Alert itself I've configured for the trigger to activate if ever the pihole-FTL.service is not running and will send me an alert via Email.
 
-![Pihole]()
+### Trigger Action:
+This just shows when the status of the service running is equal, it will trigger the operation
+
+![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-4.png)
+
+### Trigger Operation:
+The operation is just send a message to the designated users, where the users profile is linked to their email, in this case my email is the recever of the alert.
+
+![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-9.png)
 
 
-Trigger Appearing in the Dashboard
-
-![Pihole]()
+### Trigger Appearing in the Dashboard
+This shows when the trigger is activated it has successfully sent the email alert to the designated users.
+![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-6.png)
   
-Sample Email After Alert:
+### Sample Email After Alert:
 
-![Pihole]()
+Using the Gmail option is the fastest and easiest way out of all the other options like Generic SNMP, etc.
+Ive made another email just sending alerts from zabbix and another important detail to consider is to set a key for the email to ensure security of the email being used.
+
+![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-7.png)
 
 
-### Making a Custom Template
+
+## Making a Custom Template
 
 
 
-### Challenges & Solutions
+## Problems Encoutered and Troubleshooting
+
+Ive encountered by setting the systemd template by zabbix agent is the notification that is not compatible and it said that the it timeout before getting the systemd data.
+The solution I found is to change the timeout value on the zabbix server itself from the web ui and in the .config file via the terminal.
+
+![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-3.png)
+
+Other minor details when using the systemd by Zabbix Agent 2 Template are :
+
+- The Agent version running the device as it should be Agent 2
+- Remove the old Agent to avoid confusion
+ 
 
 ### Future Improvements
 
