@@ -14,13 +14,9 @@
 This project implements a centralized monitoring solution using Zabbix to improve the visibility, monitoring, and troubleshooting of my local area network (LAN). It was developed as a personal learning project to gain hands-on experience with network monitoring, system observability, and the use of industry-standard monitoring tools.
 
 
+## Monitoring Configuration
 
-
-
-
-
-
-
+![Zabbix](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/ZABBIX.png)
 
 ### Skills Demonstrated
 - Network monitoring 
@@ -39,11 +35,9 @@ This project implements a centralized monitoring solution using Zabbix to improv
 
 
 
-## Monitoring Configuration
 
 
-
-## Dashboard Screenshots
+## Dashboard 
 
 
 
@@ -88,7 +82,7 @@ Ive made another email just sending alerts from zabbix and another important det
 
 ## Problems Encoutered and Troubleshooting
 
-Ive encountered by setting the systemd template by zabbix agent is the notification that is not compatible and it said that the it timeout before getting the systemd data.
+Some problems I've encountered by setting the systemd template by zabbix agent is the notification that is not compatible and it said that the it timeout before getting the systemd data.
 The solution I found is to change the timeout value on the zabbix server itself from the web ui and in the .config file via the terminal.
 
 ![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/Zabbix-3.png)
