@@ -14,7 +14,7 @@
 This project implements a centralized monitoring solution using Zabbix to improve the visibility, monitoring, and troubleshooting of my local area network (LAN). It was developed as a personal learning project to gain hands-on experience with network monitoring, system observability, and the use of industry-standard monitoring tools.
 
 
-### Monitoring Configuration
+## Monitoring Configuration
 
 ![Zabbix](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/ZABBIX.png)
 
@@ -34,15 +34,6 @@ My Zabbix Dashboard that ive set to monitor crucial metrics such as the bits inc
 - Linux server administration
 - Virtual machine deployment and management using Proxmox
 - Documentation and network diagram creation
-
-
-
-## Monitored Infrastructure
-
-
-
-
-
 
 
 ## Alerting System (Custom Triggers)
