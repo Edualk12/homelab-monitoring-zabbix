@@ -32,7 +32,6 @@ My Zabbix Dashboard that ive set to monitor crucial metrics such as the bits inc
 - Performance monitoring and resource analysis
 - Alert and trigger configuration
 - Linux server administration
-- Virtual machine deployment and management using Proxmox
 - Documentation and network diagram creation
 
 
