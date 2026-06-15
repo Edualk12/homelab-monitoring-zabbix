@@ -209,6 +209,7 @@ This means it gets the information from Engenius Switch host and looks at the if
 
 ## Problems Encoutered and Troubleshooting
 
+
 Some problems I've encountered by setting the systemd template by zabbix agent is the notification that is not compatible and it said that the it timeout before getting the systemd data.
 The solution I found is to change the timeout value on the zabbix server itself from the web ui and in the .config file via the terminal.
 
@@ -222,7 +223,19 @@ Other minor details when using the systemd by Zabbix Agent 2 Template are :
 
 ### Future Improvements
 
+- Improve Template making Process
+- Adding more trigger for different possible failure
+- Adding more metrics in the template for more options in monitoring.
+  
+### Things Learned
 
-
+- Public and Private OIDs
+- In depth configuration of SNMP
+- Using MIB manager to navigate easier
+- How SNMP works
+- How to configure Zabbix
+- How to create a custom Template
+- OID vs MIB
+  
 
 
