@@ -146,12 +146,12 @@ So I found out that the OID is 1.3.6.1.2.1.31.1.1.1.6.10  which means:
 ![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%203.png)
 This is the ifInOctect but looking closely it is counter32 which is limited to only 4gb that is why I need Counter 64 as it is signafically more capable than counter 32 in terms of capacity.
 
-### ifhcOcters RX 
+### IFHCOCTET RX 
 
 ![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/RX.png)
 
 
-### ifhcOcters TX
+### IFHCOCTET TX
 
 ![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/TX.png)
 
