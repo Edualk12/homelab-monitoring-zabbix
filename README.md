@@ -157,10 +157,48 @@ This is the ifInOctect but looking closely it is counter32 which is limited to o
 
 ### Configuring Zabbix Template
 
-Due to the number of interfaces in the switch I used (Low Level Discovery) LLD to automate the process of getting the Rx Traffic, Tx Traffic, Status of each interface.
+Due to the number of interfaces in the switch I used (Low Level Discovery) LLD to automate the process of getting the Rx Traffic, Tx Traffic, Status of each interface, so I will be using LDD macros for this process. 
+
+MACROS USED:
+
+| LDD Macro | Meaning |
+|--------|-----|
+| {#IFNAME} | Interface Name | 
+| {#SNMPINDEX} | SNMP Table Index |
+
+I will be showing only one same screenshot as all the metrics are the same in configuration.
+
+Sample Item for the Template:
+
+### RX Traffic
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/item%20prototype%201.png)
+
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/item%20prototype%202.png)
+
+This metric shows that I need to convert it into bits and add a change for second preprocessing step for it to work in a graph and multiply to convert the bytes into bits to match the standard way of measurement.
+
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%204.png)
+
+### I also configured one LLD trigger: 
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%206.png)
+
+The expression last(/Engenius Switch/if.s tatus[{#SNMPINDEX}]=2
+This means it gets the information from Engenius Switch host and looks at the if.status (interface status) if the value matches with 2 which is equal to down which I’ve also included in the value mapping to make it easier to interpret.
+
+### 1 -> up
+### 2 -> down
+### 3 -> testing
+
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%205.png)
+
+### The remaining metrics have similar process of configuration. The Completed YAML file is in the link below:
+
+### YAML FILE: [config/ews7928p.yaml](config/ews7928p.yaml)
 
 
+### Dashboard of Completed Template
 
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/graph.png)
 
 
 
