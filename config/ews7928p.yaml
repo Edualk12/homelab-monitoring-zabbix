@@ -1,0 +1,114 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 36bff6c29af64692839d077febfc7079
+      name: 'Templates/Network devices'
+  templates:
+    - uuid: 03f1e5217eaa46ff9cf286e746fed97c
+      template: 'Engenius EWS7928P'
+      name: 'Engenius EWS7928P'
+      groups:
+        - name: 'Templates/Network devices'
+      items:
+        - uuid: dd6fa498e4db4b79b66ea5155bc77611
+          name: 'Contact info'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.2.1.1.4.0
+          key: contact.info
+          delay: 60m
+          value_type: TEXT
+          trends: '0'
+        - uuid: 39fd4b6654e947a38e802a367dffd93e
+          name: 'Engenius Uptime'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.2.1.1.3.0
+          key: engenius.uptime
+        - uuid: 5a65fb8e69df4789a8ecc8eceaf20bc0
+          name: Location
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.2.1.1.6.0
+          key: location
+          delay: 60m
+          value_type: TEXT
+          trends: '0'
+        - uuid: 89aad0f262ed4745bed500ba4819e076
+          name: 'System Description'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.2.1.1.1.0
+          key: system.description
+          delay: 60m
+          value_type: TEXT
+          trends: '0'
+        - uuid: 4c61a00b133745c2907c8466dc72a134
+          name: Hostname
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.2.1.1.5.0
+          key: system.hostname
+          delay: 60m
+          value_type: TEXT
+          trends: '0'
+      discovery_rules:
+        - uuid: af30381245914098bc640c0cb6326758
+          name: 'Interface {#IFNAME}'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#IFNAME},1.3.6.1.2.1.31.1.1.1.1]'
+          key: if.discovery
+          delay: 2s
+          item_prototypes:
+            - uuid: 0a629720a68948d5b4e1c1b85da3b730
+              name: 'Rx Traffic {#IFNAME}'
+              type: SNMP_AGENT
+              snmp_oid: '1.3.6.1.2.1.31.1.1.1.6.{#SNMPINDEX}'
+              key: 'if.in[{#SNMPINDEX}]'
+              value_type: FLOAT
+              units: bps
+              preprocessing:
+                - type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+                - type: MULTIPLIER
+                  parameters:
+                    - '8'
+            - uuid: 70ddd87dd79a4b2499515954c88c8fef
+              name: 'TX Traffic {#IFNAME}'
+              type: SNMP_AGENT
+              snmp_oid: '1.3.6.1.2.1.31.1.1.1.10.{#SNMPINDEX}'
+              key: 'if.out[{#SNMPINDEX}]'
+              value_type: FLOAT
+              units: bps
+              preprocessing:
+                - type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+                - type: MULTIPLIER
+                  parameters:
+                    - '8'
+            - uuid: 83f3c41d0ba042619fb8321ffafe2f42
+              name: 'Interface status {#IFNAME}'
+              type: SNMP_AGENT
+              snmp_oid: '1.3.6.1.2.1.2.2.1.8.{#SNMPINDEX}'
+              key: 'if.status[{#SNMPINDEX}]'
+              value_type: FLOAT
+              trigger_prototypes:
+                - uuid: f2bd3efb0902408d80420e74ad319d59
+                  expression: 'last(/Engenius EWS7928P/if.status[{#SNMPINDEX}])=2'
+                  name: 'Interface {#IFNAME} is down'
+          graph_prototypes:
+            - uuid: 24f6e893e2b04935b680ca808e5ad0d4
+              name: 'Rx Traffic {#IFNAME}'
+              graph_items:
+                - color: 199C0D
+                  calc_fnc: ALL
+                  item:
+                    host: 'Engenius EWS7928P'
+                    key: 'if.in[{#SNMPINDEX}]'
+      valuemaps:
+        - uuid: 06d85367e0a3432e985010fb2b7448b9
+          name: status
+          mappings:
+            - value: '1'
+              newvalue: up
+            - value: '2'
+              newvalue: down
+            - value: '3'
+              newvalue: testing
