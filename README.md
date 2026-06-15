@@ -233,9 +233,12 @@ Other minor details when using the systemd by Zabbix Agent 2 Template are :
 - In depth configuration of SNMP
 - Using MIB manager to navigate easier
 - How SNMP works
-- How to configure Zabbix
+- How to configure Zabbix agents and SNMP
 - How to create a custom Template
+- Troubleshooting Zabbix
+- Zabbix Navigation and Administration
 - OID vs MIB
+- Configuring Triggers
   
 
 
