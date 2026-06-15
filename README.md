@@ -72,6 +72,101 @@ Ive made another email just sending alerts from zabbix and another important det
 
 ## Making a Custom Template
 
+One of my network devices (Engenius EWS7928P) Switch does not have a readily available template so I need to make my own through getting the private oid through snmp.
+
+For my Template the main metrics I need to have for each interface of the switch:
+
+- Uptime
+- Rx Traffic
+- Tx Traffic
+- Interface Status
+- Sytem Description
+- Hostname
+- Location
+- Contact Information
+
+### Step 1
+I enabled snmp v2c in my switch and set the snmp community:
+
+```
+Set snmp commmunity public ro
+Set snmp community private rw
+```
+
+
+### Step 2 
+There are common Object Identifier (OID) used widely by every company which are:
+
+| Metric | OID |
+|--------|-----|
+| Contact information | .1.3.6.1.2.1.1.4.0 | 
+| Uptime | .1.3.6.1.2.1.1.3.0 |
+| Hostname | .1.3.6.1.2.1.1.5.0 |
+| Location | .1.3.6.1.2.1.1.6.0 | 
+| System Description | 1.3.6.1.2.1.1.1.0 |
+
+I need to use SNMPwalk or other ways to get the private OID which is vendor specific.
+
+The first method I used in getting the OID for the template is using snmpwalk command which gave me this result:
+
+Command:
+  - snmpwalk -v2c -c public <ip> <1.3.6.1.2.1.1>
+    
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/snmpwalk.png)
+
+Due to the time-consuming process of using snmpwalk of finding the specific OID I need, I used MIB broswers to be more efficient in finding the oid I need which are Rx, Tx and, Status:
+
+### OID for interface description: [.1.3.6.1.2.1.2.2.1.2]
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%201.png)
+
+### OID for interface type : [.1.3.6.1.2.1.2.2.1.3]
+
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%202.png)
+
+Finding the RX and TX Traffic is quite tedious as I searched for what it is called which is "ifhcOctets" which means High Capacity Octet (Octet = 8 bitS = 1 Byte) and I also what number it is designated based from the RFC 2863 — "The Interfaces Group MIB" (published June 2000, supersedes RFC 1573).
+
+So I found out that the OID is 1.3.6.1.2.1.31.1.1.1.6.10  which means:
+
+| OID | MIB |
+|--------|-----|
+| 1.3.6.1.2.1.31.1.1.1.6 | IF-MIB::ifHCInOctets | 
+| 1.3.6.1.2.1.31.1.1.1.10 | IF-MIB::ifHCOutOctets |
+
+
+- 1.3.6.1.2.1.31 = IF-MIB (ifMIB) 
+- .1.1.1 = ifXTable > ifXEntry
+- .6 = ifHCInOctets 
+- .10 = ifHCOutOctets
+
+### IMPORTANT: This metric actually store the total bytes though a specific interface after its enabled or boot so later I will need to configure it to turn this into a data rate or throughput instead of total accumulated bytes.
+
+### NOTE: The initial interface table (ifTable) provides 32-bit traffic counters (ifInOctets and ifOutOctets). But the template uses the extended ifXTable high-capacity 64-bit counters (ifHCInOctets and ifHCOutOctets) to avoid counter overflow on modern high-speed interfaces. 
+
+### ifinOctet (Rx Octet) 
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%203.png)
+This is the ifInOctect but looking closely it is counter32 which is limited to only 4gb that is why I need Counter 64 as it is signafically more capable than counter 32 in terms of capacity.
+
+### ifhcOcters RX 
+
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/RX.png)
+
+
+### ifhcOcters TX
+
+![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/TX.png)
+
+### Configuring Zabbix Template
+
+Due to the number of interfaces in the switch I used (Low Level Discovery) LLD to automate the process of getting the Rx Traffic, Tx Traffic, Status of each interface.
+
+
+
+
+
+
+
+
+
 
 
 ## Problems Encoutered and Troubleshooting
