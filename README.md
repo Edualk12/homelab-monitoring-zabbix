@@ -1,4 +1,4 @@
-# HOMELAB MONITORING USING ZABBIX
+# Zabbix Homelab: SNMP Monitoring, Custom Templates, and Alerting
 
 ![Proxmox](https://img.shields.io/badge/Proxmox-E57000?style=for-the-badge&logo=proxmox&logoColor=white)
 ![Cisco](https://img.shields.io/badge/Cisco-1BA0D7?style=for-the-badge&logo=cisco&logoColor=white)
