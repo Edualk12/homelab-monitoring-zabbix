@@ -20,7 +20,7 @@ This project implements a centralized monitoring solution using Zabbix to improv
 
 
 ### Dashboard 
-My Zabbix Dashboard that ive set to monitor crucial metrics such as the bits incoming and outgoing of my PC,and also the CPU and Memory utilization of the Zabbix Server itself and the Proxmox Hypervisor
+My Zabbix dashboard is configured to monitor crucial metrics such as incoming and outgoing network traffic on my PC, as well as CPU and memory utilization of the Zabbix server and Proxmox hypervisor.
 ![Zabbix](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images%20/Dashboard.png)
 
 
@@ -37,22 +37,22 @@ My Zabbix Dashboard that ive set to monitor crucial metrics such as the bits inc
 
 ## Alerting System (Custom Triggers)
 
-Zabbix has the feature of creating custom alerts or triggers based on the device's status or a specific service running in the device being monitored. I've made triggers for detecting if my Pi-hole DNS server goes down. I used the readily made template from zabbix that scans for the status of the services running in the linux server which is where the Pihole is running
+Zabbix provides the ability to create custom alerts and triggers based on a device's status or the state of specific services being monitored. I created triggers to detect when my Pi-hole DNS server becomes unavailable. I used the pre-built template from Zabbix that monitors the status of services running on the Linux server hosting Pi-hole.
 
 ### Templates Used: 
 
 - Systemd by Zabbix Agent 2
 - Linux by Zabbix Agent
 
-For the Trigger Alert itself I've configured for the trigger to activate if ever the pihole-FTL.service is not running and will send me an alert via Email.
+I configured the trigger to activate whenever pihole-FTL.service is not running. and will send me an alert via email.
 
 ### Trigger Action:
-This just shows when the status of the service running is equal, it will trigger the operation
+This shows that when the service status matches the defined condition, the trigger will execute the configured operation.
 
 ![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/Zabbix-4.png)
 
 ### Trigger Operation:
-The operation is just send a message to the designated users, where the users profile is linked to their email, in this case my email is the recever of the alert.
+The operation sends a message to the designated users whose profiles are linked to their email addresses. In this case, my email receives the alert.
 
 ![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/Zabbix-9.png)
 
@@ -63,24 +63,22 @@ This shows when the trigger is activated it has successfully sent the email aler
   
 ### Sample Email After Alert:
 
-Using the Gmail option is the fastest and easiest way out of all the other options like Generic SNMP, etc.
-Ive made another email just sending alerts from zabbix and another important detail to consider is to set a key for the email to ensure security of the email being used.
-
+Using Gmail SMTP is the simplest and fastest option compared to other email providers.
+I created a dedicated email account used solely for sending Zabbix alerts. Another important consideration is to configure an application-specific password key from google's 2 Factor Authentication to improve the security of the email account.
 ![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/Zabbix-7.png)
 
 
 
 ## Making a Custom Template
 
-One of my network devices (Engenius EWS7928P) Switch does not have a readily available template so I need to make my own through getting the private oid through snmp.
-
-For my Template the main metrics I need to have for each interface of the switch:
+One of my network devices, the EnGenius EWS7928P switch, does not have a readily available template, so I created my own by discovering its private OIDs through SNMP.
+For my template the main metrics I need to have for each interface of the switch:
 
 - Uptime
 - Rx Traffic
 - Tx Traffic
 - Interface Status
-- Sytem Description
+- System Description
 - Hostname
 - Location
 - Contact Information
@@ -89,13 +87,13 @@ For my Template the main metrics I need to have for each interface of the switch
 I enabled snmp v2c in my switch and set the snmp community:
 
 ```
-Set snmp commmunity public ro
-Set snmp community private rw
+set snmp community public ro
+set snmp community private rw
 ```
 
 
 ### Step 2 
-There are common Object Identifier (OID) used widely by every company which are:
+There are common Object Identifiers (OIDs) standardized and used by many vendors:
 
 | Metric | OID |
 |--------|-----|
@@ -105,7 +103,7 @@ There are common Object Identifier (OID) used widely by every company which are:
 | Location | .1.3.6.1.2.1.1.6.0 | 
 | System Description | 1.3.6.1.2.1.1.1.0 |
 
-I need to use SNMPwalk or other ways to get the private OID which is vendor specific.
+I used SNMPwalk and other tools to discover private OIDs that are vendor-specific.
 
 The first method I used in getting the OID for the template is using snmpwalk command which gave me this result:
 
@@ -114,7 +112,7 @@ Command:
     
 ![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/snmpwalk.png)
 
-Due to the time-consuming process of using snmpwalk of finding the specific OID I need, I used MIB broswers to be more efficient in finding the oid I need which are Rx, Tx and, Status:
+Because finding specific OIDs using SNMPwalk was time-consuming, I used MIB browsers to more efficiently locate the required OIDs for RX, TX, and interface status.
 
 ### OID for interface description: [.1.3.6.1.2.1.2.2.1.2]
 ![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%201.png)
@@ -123,7 +121,7 @@ Due to the time-consuming process of using snmpwalk of finding the specific OID 
 
 ![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%202.png)
 
-Finding the RX and TX Traffic is quite tedious as I searched for what it is called which is "ifhcOctets" which means High Capacity Octet (Octet = 8 bitS = 1 Byte) and I also what number it is designated based from the RFC 2863 — "The Interfaces Group MIB" (published June 2000, supersedes RFC 1573).
+Finding RX and TX traffic was quite tedious, as I first needed to identify the corresponding SNMP object, ifHCInOctets and ifHCOutOctets which means High Capacity Octets (1 octet = 8 bits = 1 byte) and I identified its assigned OID number based on RFC 2863. — "The Interfaces Group MIB" (published June 2000, supersedes RFC 1573).
 
 So I found out that the OID is 1.3.6.1.2.1.31.1.1.1.6.10  which means:
 
@@ -138,13 +136,14 @@ So I found out that the OID is 1.3.6.1.2.1.31.1.1.1.6.10  which means:
 - .6 = ifHCInOctets 
 - .10 = ifHCOutOctets
 
-### IMPORTANT: This metric actually store the total bytes though a specific interface after its enabled or boot so later I will need to configure it to turn this into a data rate or throughput instead of total accumulated bytes.
+### IMPORTANT: This metric stores the total number of bytes that pass through a specific interface.This metric stores the total number of bytes that pass through a specific interface since the device was last rebooted. Therefore, it must be converted into a data rate to represent actual throughput.
 
 ### NOTE: The initial interface table (ifTable) provides 32-bit traffic counters (ifInOctets and ifOutOctets). But the template uses the extended ifXTable high-capacity 64-bit counters (ifHCInOctets and ifHCOutOctets) to avoid counter overflow on modern high-speed interfaces. 
 
 ### ifinOctet (Rx Octet) 
 ![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%203.png)
-This is the ifInOctect but looking closely it is counter32 which is limited to only 4gb that is why I need Counter 64 as it is signafically more capable than counter 32 in terms of capacity.
+This is the ifInOctet but looking closely it is a Counter32 value, which has a maximum value of approximately 4 GB. 
+That is why I need Counter 64 as it is significantly more capable than counter 32 in terms of capacity.
 
 ### IFHCOCTET RX 
 
@@ -157,16 +156,16 @@ This is the ifInOctect but looking closely it is counter32 which is limited to o
 
 ### Configuring Zabbix Template
 
-Due to the number of interfaces in the switch I used (Low Level Discovery) LLD to automate the process of getting the Rx Traffic, Tx Traffic, Status of each interface, so I will be using LDD macros for this process. 
+Due to the large number of interfaces on the switch, I used Low-Level Discovery (LLD) to automatically create monitoring items for RX traffic, TX traffic, and interface status.
 
 MACROS USED:
 
-| LDD Macro | Meaning |
+| LLD Macro | Meaning |
 |--------|-----|
 | {#IFNAME} | Interface Name | 
 | {#SNMPINDEX} | SNMP Table Index |
 
-I will be showing only one same screenshot as all the metrics are the same in configuration.
+I will only show one sample configuration because the remaining metrics follow a similar configuration process.
 
 Sample Item for the Template:
 
@@ -175,15 +174,15 @@ Sample Item for the Template:
 
 ![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/item%20prototype%202.png)
 
-This metric shows that I need to convert it into bits and add a change for second preprocessing step for it to work in a graph and multiply to convert the bytes into bits to match the standard way of measurement.
+This metric shows that I need to convert it into bits and add a "change per second" preprocessing step to convert the cumulative byte counter into a throughput value, then multiply it by 8 to convert bytes to bits.
 
 ![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%204.png)
 
 ### I also configured one LLD trigger: 
 ![snmp](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/oid%206.png)
 
-The expression last(/Engenius Switch/if.s tatus[{#SNMPINDEX}]=2
-This means it gets the information from Engenius Switch host and looks at the if.status (interface status) if the value matches with 2 which is equal to down which I’ve also included in the value mapping to make it easier to interpret.
+last(/EnGenius Switch/if.status[{#SNMPINDEX}])=2
+This expression retrieves the interface status from the EnGenius switch host. If the value equals 2, the interface is considered down based on the configured value mapping.
 
 ### 1 -> up
 ### 2 -> down
@@ -207,32 +206,31 @@ This means it gets the information from Engenius Switch host and looks at the if
 
 
 
-## Problems Encoutered and Troubleshooting
+## Problems Encountered and Troubleshooting
 
 
-Some problems I've encountered by setting the systemd template by zabbix agent is the notification that is not compatible and it said that the it timeout before getting the systemd data.
-The solution I found is to change the timeout value on the zabbix server itself from the web ui and in the .config file via the terminal.
+One issue I encountered while configuring the Systemd by Zabbix Agent 2 template was a timeout error when retrieving systemd data. The solution was to increase the timeout value in the Zabbix server configuration.
 
 ![Pihole](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/Zabbix-3.png)
 
 Other minor details when using the systemd by Zabbix Agent 2 Template are :
 
-- The Agent version running the device as it should be Agent 2
+- Ensure that the agent running on the device is Zabbix Agent 2.
 - Remove the old Agent config file to avoid confusion
  
 
 ### Future Improvements
 
-- Improve Template making Process
-- Adding more trigger for different possible failure
-- Adding more metrics in the template for more options in monitoring.
+- Improve the template creation process.
+- Add more triggers for different failure scenarios.
+- Include additional metrics for more comprehensive monitoring.
   
 ### Things Learned
 
 - Public and Private OIDs
-- In depth configuration of SNMP
-- Using MIB manager to navigate easier
-- How SNMP works
+- In-depth SNMP configuration
+- Using MIB browsers to navigate OIDs more efficiently
+- Understanding how SNMP works
 - How to configure Zabbix agents and SNMP
 - How to create a custom Template
 - Troubleshooting Zabbix
