@@ -16,7 +16,7 @@ This project implements a centralized monitoring solution using Zabbix to improv
 
 ## Monitoring Configuration
 
-![Zabbix](https://github.com/Edualk12/homelab-monitoring-zabbix/blob/main/images/ZABBIX.png)
+![Zabbix](https://github.com/Edualk12/homelab-infrastructure-monitoring-zabbix/blob/main/images/ZABBIX2.png)
 
 
 ### Dashboard 
